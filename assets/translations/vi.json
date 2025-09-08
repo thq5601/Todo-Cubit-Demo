@@ -1,0 +1,9 @@
+{
+  "login": "Đăng nhập",
+  "username": "Tên đăng nhập",
+  "password": "Mật khẩu",
+  "welcome": "Xin chào, {}",
+  "home": "Đây là màn hình chính",
+  "error_login": "Sai tên đăng nhập hoặc mật khẩu",
+  "logout": "Đăng xuất"
+}

@@ -1,0 +1,9 @@
+{
+  "login": "Login",
+  "username": "Username",
+  "password": "Password",
+  "welcome": "Welcome, {}",
+  "home": "Home Screen",
+  "error_login": "Wrong username or password",
+  "logout": "Logout"
+}
