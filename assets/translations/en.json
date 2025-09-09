@@ -5,5 +5,11 @@
   "welcome": "Welcome, {}",
   "home": "Home Screen",
   "error_login": "Wrong username or password",
-  "logout": "Logout"
+  "logout": "Logout",
+  "enter_todo": "Add a todo",
+  "edit_todo": "Edit todo",
+  "cancel": "Cancel",
+  "save": "Save",
+  "todo_added": "Todo added",
+  "empty_todo_msg": "Please enter a todo"
 }

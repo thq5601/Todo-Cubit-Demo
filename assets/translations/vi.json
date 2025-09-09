@@ -5,5 +5,11 @@
   "welcome": "Xin chào, {}",
   "home": "Đây là màn hình chính",
   "error_login": "Sai tên đăng nhập hoặc mật khẩu",
-  "logout": "Đăng xuất"
+  "logout": "Đăng xuất",
+  "enter_todo": "Thêm việc phải làm",
+  "edit_todo": "Chỉnh sửa việc phải làm",
+  "cancel": "Hủy",
+  "save": "Lưu",
+  "todo_added": "Đã thêm việc phải làm",
+  "empty_todo_msg": "Vui lòng nhập việc phải làm"
 }
