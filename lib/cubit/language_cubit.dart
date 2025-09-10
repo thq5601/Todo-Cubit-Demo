@@ -12,4 +12,6 @@ class LanguageCubit extends Cubit<LanguageState> {
         : const Locale('vi');
     emit(LanguageState(newLocale));
   }
+
+  void setLocale(Locale locale) => emit(LanguageState(locale));
 }
