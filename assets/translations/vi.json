@@ -11,5 +11,6 @@
   "cancel": "Hủy",
   "save": "Lưu",
   "todo_added": "Đã thêm việc phải làm",
-  "empty_todo_msg": "Vui lòng nhập việc phải làm"
+  "empty_todo_msg": "Vui lòng nhập việc phải làm",
+  "search_todo": "Tìm kiếm công việc"
 }

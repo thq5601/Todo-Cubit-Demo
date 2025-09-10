@@ -1,5 +1,7 @@
+
 import 'package:bloc_cubit/cubit/todo_cubit.dart';
 import 'package:bloc_cubit/cubit/todo_state.dart';
+import 'package:bloc_cubit/cubit/todo_search_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,69 +15,104 @@ class TodoScreen extends StatefulWidget {
 
 class _TodoScreenState extends State<TodoScreen> {
   final TextEditingController _controller = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void dispose() {
     _controller.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        final _locale = context.locale;
-
-        return BlocBuilder<TodoCubit, TodoState>(
-          builder: (context, state) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      //Enter todo
-                      Expanded(
-                        child: TextField(
-                          controller: _controller,
-                          decoration: InputDecoration(
-                            hintText: "enter_todo".tr(),
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          final text = _controller.text.trim();
-                          if (text.isNotEmpty) {
-                            context.read<TodoCubit>().addTodo(text);
-                            _controller.clear();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("todo_added".tr()),
-                                backgroundColor: Colors.green,
-                                duration: const Duration(seconds: 1),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("empty_todo_msg".tr()),
-                                backgroundColor: Colors.red,
-                                duration: const Duration(seconds: 1),
-                              ),
-                            );
-                          }
-                        },
-                        icon: const Icon(Icons.add),
-                      ),
-                    ],
-                  ),
+    return Column(
+      children: [
+        // Search bar
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Builder(
+            builder: (context) {
+              final _ = context.locale;
+              return TextField(
+                controller: _searchController,
+                onChanged: (value) {
+                  context.read<TodoSearchCubit>().setQuery(value);
+                },
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  hintText: "search_todo".tr(),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: state.todos.length,
+              );
+            }
+          ),
+        ),
+
+        // Add todo
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Expanded(
+                child: Builder(
+                  builder: (context) {
+                    final _ = context.locale;
+                    return TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(hintText: "enter_todo".tr()),
+                    );
+                  }
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  final text = _controller.text.trim();
+                  if (text.isNotEmpty) {
+                    context.read<TodoCubit>().addTodo(text);
+                    _controller.clear();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("todo_added".tr()),
+                        backgroundColor: Colors.green,
+                        duration: const Duration(seconds: 1),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("empty_todo_msg".tr()),
+                        backgroundColor: Colors.red,
+                        duration: const Duration(seconds: 1),
+                      ),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.add),
+              ),
+            ],
+          ),
+        ),
+
+        // Todo list (filtered)
+        Expanded(
+          child: BlocBuilder<TodoCubit, TodoState>(
+            builder: (context, todoState) {
+              return BlocBuilder<TodoSearchCubit, String>(
+                builder: (context, query) {
+                  final filtered = query.isEmpty
+                      ? todoState.todos
+                      : todoState.todos
+                            .where(
+                              (t) => t.title.toLowerCase().contains(
+                                query.toLowerCase(),
+                              ),
+                            )
+                            .toList();
+
+                  return ListView.builder(
+                    itemCount: filtered.length,
                     itemBuilder: (context, index) {
-                      final todo = state.todos[index];
+                      final todo = filtered[index];
                       return ListTile(
                         leading: Checkbox(
                           value: todo.isComplete,
@@ -136,13 +173,13 @@ class _TodoScreenState extends State<TodoScreen> {
                         },
                       );
                     },
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

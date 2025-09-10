@@ -11,5 +11,7 @@
   "cancel": "Cancel",
   "save": "Save",
   "todo_added": "Todo added",
-  "empty_todo_msg": "Please enter a todo"
+  "empty_todo_msg": "Please enter a todo",
+  "search_todo": "Search todos"
+
 }
