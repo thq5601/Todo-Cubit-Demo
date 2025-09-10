@@ -1,4 +1,3 @@
-
 import 'package:bloc_cubit/cubit/todo_cubit.dart';
 import 'package:bloc_cubit/cubit/todo_state.dart';
 import 'package:bloc_cubit/cubit/todo_search_cubit.dart';
@@ -34,17 +33,16 @@ class _TodoScreenState extends State<TodoScreen> {
           child: Builder(
             builder: (context) {
               final _ = context.locale;
-              return TextField(
+
+              return SearchBar(
+                hintText: "search_todo".tr(),
                 controller: _searchController,
+                leading: const Icon(Icons.search),
                 onChanged: (value) {
                   context.read<TodoSearchCubit>().setQuery(value);
                 },
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: "search_todo".tr(),
-                ),
               );
-            }
+            },
           ),
         ),
 
@@ -61,7 +59,7 @@ class _TodoScreenState extends State<TodoScreen> {
                       controller: _controller,
                       decoration: InputDecoration(hintText: "enter_todo".tr()),
                     );
-                  }
+                  },
                 ),
               ),
               IconButton(
